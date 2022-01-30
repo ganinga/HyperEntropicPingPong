@@ -1,2 +1,2 @@
-# PingPong
-A beginner ping pong game made using html and javascript.
+# HyperentropicPingPong
+A beginner ping pong game made using html and javascript. 
