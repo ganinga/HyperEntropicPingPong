@@ -33,7 +33,7 @@
 
       let paddle = { h: 100, w: 5 };
       let leftPaddle = (rightPaddle = ball = {});
-      let score = 5;
+      let score = 0;
       let level = 1;
       let increment = 0.2;
       let levelcolor='';
@@ -57,7 +57,7 @@
         obstacle3 = {x: Math.random()*canvasW/7 + 50, y: Math.random()*canvasH/4 + 50, w: 100, h: 25};
         obstacle4 = {x: Math.random()*canvasW/6 + canvasW/3, y: Math.random()*canvasH + canvasH/7, w: 200, h: 25};
         level = 1;
-        score = 5;
+        score = 0;
       }
 
       function moveLeftPaddle() {
@@ -382,42 +382,42 @@
           
 
           if(ball.dx<0 && ball.dx>-10){
-              ball.dx += Math.random() * -0.2;
+              ball.dx += Math.random() * -0.1;
           }
           if (ball.dx > -15 && ball.dx < -10) {
-              ball.dx += Math.random() * 0.2;
+              ball.dx += Math.random() * 0.1;
           }
           if (ball.dx < -15) {
-              ball.dx = Math.random() * -10;
+              ball.dx = Math.random() * -5;
           }
 
           if (ball.dx < 0 && ball.dx < 10) {
-              ball.dx += Math.random() * 0.2;
+              ball.dx += Math.random() * 0.1;
           }
           if (ball.dx < 15 && ball.dx > 10) {
-              ball.dx += Math.random() * -0.2;
+              ball.dx += Math.random() * -0.1;
           }
           if (ball.dx > 15) {
-              ball.dx = Math.random() * 10;
+              ball.dx = Math.random() * 5;
           }
 
           if (ball.dy < 0 && ball.dy > -10) {
-              ball.dy += Math.random() * -0.2;
+              ball.dy += Math.random() * -0.1;
           }
           if (ball.dy > -15 && ball.dy < -10) {
-              ball.dy += Math.random() * 0.2;
+              ball.dy += Math.random() * 0.1;
           }
           if (ball.dy < -15) {
-              ball.dy = Math.random() * -10;
+              ball.dy = Math.random() * -5;
           }
 
           if (ball.dy < 0 && ball.dy < 10) {
-              ball.dy += Math.random() * 0.2;
+              ball.dy += Math.random() * 0.1;
           }
           if (ball.dy < 15 && ball.dy > 10) {
-              ball.dy += Math.random() * -0.2;}
+              ball.dy += Math.random() * -0.1;}
           if (ball.dy > 15) {
-              ball.dy = Math.random() * 10;
+              ball.dy = Math.random() * 5;
           }
 
           if(ball.dy<0.5 && ball.dy >-0.5) ball.dy=2*(Math.random()+0.5);
