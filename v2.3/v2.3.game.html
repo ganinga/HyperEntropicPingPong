@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PingPong Game</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        div {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <section style="display: flex; justify-content: center">
+        <div>
+            <h1 style="font-family:verdana"> Hyperentropic Ping Pong </h1>
+            <canvas id="canvas" height=80% width=60% margin=10 style="border: 3px solid darkorange;">Heyyy canvas is not
+                supported</canvas>
+        </div>
+    </section>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        ctx.canvas.width = window.innerWidth / 2;
+        ctx.canvas.height = window.innerHeight / 1.5;
+        const canvasH = canvas.height;
+        const canvasW = canvas.width;
+
+
+
+
+        let paddle = { h: 100, w: 5 };
+        let leftPaddle = (rightPaddle = ball = {});
+        let score = 0;
+        let level = 1;
+        let increment = 0.2;
+        let levelcolor = '';
+        let highscore = 0;
+
+        setInitialVariables();
+        drawBall();
+        drawLeftPaddle();
+        drawRightPaddle();
+        drawScore();
+        drawCenterLine();
+        moveBall();
+        moveLeftPaddle();
+
+        function setInitialVariables() {
+            ball = { x: Math.random() * canvasW, y: Math.random() * canvasH, r: 10, dx: 8, dy: 5 };
+            leftPaddle = { x: 0, y: 125 };
+            rightPaddle = { x: canvasW - 5, y: 125 };
+            obstacle1 = { x: Math.random() * canvasW / 4 + 50, y: Math.random() * canvasH / 2 + 50, w: 150, h: 25 };
+            obstacle2 = { x: Math.random() * canvasW / 4 + canvasW / 4 + 50, y: Math.random() * canvasH / 3 + canvasH / 4, w: 150, h: 25 };
+            obstacle3 = { x: Math.random() * canvasW / 7 + 50, y: Math.random() * canvasH / 4 + 50, w: 100, h: 25 };
+            obstacle4 = { x: Math.random() * canvasW / 6 + canvasW / 3, y: Math.random() * canvasH + canvasH / 7, w: 200, h: 25 };
+            level = 1;
+            score = 0;
+        }
+
+        function moveLeftPaddle() {
+            document.addEventListener("mousemove", (e) => {
+                leftPaddle.y = e.screenY - 200;
+            });
+        }
+
+        function detectCollision() {
+            //   Detect Right Paddle Collision
+            if (ball.x > rightPaddle.x - ball.r) {
+                ball.dx = -ball.dx;
+            }
+
+            //   Detect Left Paddle Collision
+            if ((ball.x - ball.r < paddle.w) &&
+                ((ball.y + ball.r > leftPaddle.y &&
+                    ball.y + ball.r < leftPaddle.y + paddle.h) ||
+                    (ball.y - ball.r > leftPaddle.y &&
+                        ball.y - ball.r < leftPaddle.y + paddle.h)) &&
+                ball.dx < 0) {
+                console.log("paddle collision check");
+                if (level == 1) {
+                    ball.dx = -ball.dx;
+                    ball.dy;
+                }
+
+                else if (level == 2) {
+                    ball.dx = -ball.dx;
+                }
+
+                else if (level == 3) {
+                    ball.dx = -ball.dx + 5 * increment;
+                    ball.dy += 2 * increment;
+                }
+
+                score++;
+                if (score >= 3 && score < 10) level = 2;
+                if (score >= 10) level = 3;
+            }
+            else if (ball.x - ball.r < 0) {
+                console.log((ball.x - ball.r < paddle.w), ((ball.y + ball.r > paddle.y &&
+                    ball.y + ball.r < paddle.y + paddle.h) ||
+                    (ball.y - ball.r > paddle.y &&
+                        ball.y - ball.r < paddle.y + paddle.h)),
+                    (ball.dx < 0))
+                console.log(ball.x - ball.r, 'x-r: wall collision');
+                alert("You Lose!");
+                if (highscore < score) highscore = score;
+                alert("Your highscore so far: " + highscore);
+                score = 0;
+                setInitialVariables();
+            }
+            // Detect Top or Bottom Collision
+            if (ball.y > canvasH - ball.r || ball.y < 0 + ball.r) {
+                ball.dy = -ball.dy;
+            }
+
+
+
+
+
+            // Detect Obstacle1&2&3&4 Collision
+
+            if (level == 2 || level == 3) {
+                //score=6; // Testing, comment it out later
+
+
+
+
+
+                // Obstacle 1 Right Face
+
+                if ((ball.x - ball.r < obstacle1.x + obstacle1.w) &&
+                    ((ball.y + ball.r > obstacle1.y &&
+                        ball.y + ball.r < obstacle1.y + obstacle1.h) ||
+                        (ball.y - ball.r > obstacle1.y &&
+                            ball.y - ball.r < obstacle1.y + obstacle1.h)) &&
+                    (ball.x > obstacle1.x)
+                ) {
+                    ball.dx = -ball.dx;
+                }
+
+                // Obstacle 1 Left Face
+
+                else if ((ball.x + ball.r > obstacle1.x) &&
+                    ((ball.y + ball.r > obstacle1.y &&
+                        ball.y + ball.r < obstacle1.y + obstacle1.h) ||
+                        (ball.y - ball.r > obstacle1.y &&
+                            ball.y - ball.r < obstacle1.y + obstacle1.h)) &&
+                    (ball.x < obstacle1.x)
+                ) {
+                    ball.dx = -(ball.dx + 0.7);
+                }
+
+                // Obstacle 1 Top Face
+
+                else if (ball.y + ball.r == obstacle1.y &&
+                    ((ball.x + ball.r > obstacle1.x &&
+                        ball.x + ball.r < obstacle1.x + obstacle1.w) ||
+                        (ball.x - ball.r > obstacle1.x &&
+                            ball.x - ball.r < obstacle1.x + obstacle1.w)) &&
+                    (ball.dy > 0)
+                ) {
+                    ball.dy = -(ball.dy + 2);
+                }
+
+                // Obstacle 1 Bottom Face
+
+                else if (ball.y - ball.r < obstacle1.y + obstacle1.h &&
+                    ((ball.x + ball.r > obstacle1.x &&
+                        ball.x + ball.r < obstacle1.x + obstacle1.w) ||
+                        (ball.x - ball.r > obstacle1.x &&
+                            ball.x - ball.r < obstacle1.x + obstacle1.w)) &&
+                    ball.y > obstacle1.y
+                ) {
+                    ball.dy = -(ball.dy + 0.7);
+                }
+
+
+                // Obstacle 2 Right Face
+
+                if ((ball.x - ball.r < obstacle2.x + obstacle2.w) &&
+                    ((ball.y + ball.r > obstacle2.y &&
+                        ball.y + ball.r < obstacle2.y + obstacle2.h) ||
+                        (ball.y - ball.r > obstacle2.y &&
+                            ball.y - ball.r < obstacle2.y + obstacle2.h)) &&
+                    (ball.x > obstacle2.x)
+                ) {
+                    ball.dx = -ball.dx;
+                }
+
+                // Obstacle 2 Left Face
+
+                else if ((ball.x + ball.r == obstacle2.x) &&
+                    ((ball.y + ball.r > obstacle2.y &&
+                        ball.y + ball.r < obstacle2.y + obstacle2.h) ||
+                        (ball.y - ball.r > obstacle2.y &&
+                            ball.y - ball.r < obstacle2.y + obstacle2.h)) &&
+                    (ball.x < obstacle2.x) && (ball.dx > 0)
+                ) {
+                    ball.dx = -(ball.dx + 0.7);
+
+                }
+
+                // Obstacle 2 Top Face
+
+                else if (ball.y + ball.r == obstacle2.y &&
+                    ((ball.x + ball.r > obstacle2.x &&
+                        ball.x + ball.r < obstacle2.x + obstacle2.w) ||
+                        (ball.x - ball.r > obstacle2.x &&
+                            ball.x - ball.r < obstacle2.x + obstacle2.w)) &&
+                    (ball.dy > 0)
+                ) {
+                    ball.dy = -(ball.dy + 2);
+                }
+
+                // Obstacle 2 Bottom Face
+
+                else if (ball.y - ball.r < obstacle2.y + obstacle2.h &&
+                    ((ball.x - ball.r > obstacle2.x && ball.x - ball.r < obstacle2.x + obstacle2.w) ||
+                        (ball.x + ball.r < obstacle2.x + obstacle2.w && ball.x + ball.r > obstacle2.x)) &&
+                    ball.y > obstacle2.y + obstacle2.h
+                ) {
+                    ball.dy = -(ball.dy + 0.7);
+                }
+
+                // Obstacle 3 Right Face
+
+                if ((ball.x - ball.r < obstacle3.x + obstacle3.w) &&
+                    ((ball.y + ball.r > obstacle3.y &&
+                        ball.y + ball.r < obstacle3.y + obstacle3.h) ||
+                        (ball.y - ball.r > obstacle3.y &&
+                            ball.y - ball.r < obstacle3.y + obstacle3.h)) &&
+                    (ball.x > obstacle3.x)
+                ) {
+                    ball.dx = -ball.dx;
+                }
+
+                // Obstacle 3 Left Face
+
+                else if ((ball.x + ball.r == obstacle3.x) &&
+                    ((ball.y + ball.r > obstacle3.y &&
+                        ball.y + ball.r < obstacle3.y + obstacle3.h) ||
+                        (ball.y - ball.r > obstacle3.y &&
+                            ball.y - ball.r < obstacle3.y + obstacle3.h)) &&
+                    (ball.x < obstacle3.x) && (ball.dx > 0)
+                ) {
+                    ball.dx = -(ball.dx + 0.7);
+
+                }
+
+                // Obstacle 3 Top Face
+
+                else if (ball.y + ball.r == obstacle3.y &&
+                    ((ball.x + ball.r > obstacle3.x &&
+                        ball.x + ball.r < obstacle3.x + obstacle3.w) ||
+                        (ball.x - ball.r > obstacle3.x &&
+                            ball.x - ball.r < obstacle3.x + obstacle3.w)) &&
+                    (ball.dy > 0)
+                ) {
+                    ball.dy = -(ball.dy + 2);
+                }
+
+                // Obstacle 3 Bottom Face
+
+                else if (ball.y - ball.r < obstacle3.y + obstacle3.h &&
+                    ((ball.x - ball.r > obstacle3.x && ball.x - ball.r < obstacle3.x + obstacle3.w) ||
+                        (ball.x + ball.r < obstacle3.x + obstacle3.w && ball.x + ball.r > obstacle3.x)) &&
+                    ball.y > obstacle3.y + obstacle3.h
+                ) {
+                    ball.dy = -(ball.dy + 0.7);
+                }
+
+
+
+
+                /*
+                // Obstacle 4 Right Face
+      
+                if ((ball.x - ball.r < obstacle4.x + obstacle4.w) &&
+                  ((ball.y + ball.r > obstacle4.y &&
+                    ball.y + ball.r < obstacle4.y + obstacle4.h) ||
+                  (ball.y - ball.r > obstacle4.y &&
+                    ball.y - ball.r < obstacle4.y + obstacle4.h)) &&
+                  (ball.x > obstacle4.x)          
+                 ) {ball.dx = -ball.dx;
+              }
+      
+                // Obstacle 4 Left Face
+      
+                else if ((ball.x + ball.r == obstacle4.x) &&
+                  ((ball.y + ball.r > obstacle4.y &&
+                    ball.y + ball.r < obstacle4.y + obstacle4.h) ||
+                  (ball.y - ball.r > obstacle4.y &&
+                    ball.y - ball.r < obstacle4.y + obstacle4.h)) &&
+                  (ball.x < obstacle4.x) && (ball.dx > 0)         
+                 ) {ball.dx = -(ball.dx+0.7);
+      
+                }
+      
+                // Obstacle 4 Top Face
+      
+                else if( ball.y + ball.r == obstacle4.y &&
+                  ((ball.x + ball.r > obstacle4.x &&
+                    ball.x + ball.r < obstacle4.x + obstacle4.w) ||
+                  (ball.x - ball.r > obstacle4.x &&
+                    ball.x - ball.r < obstacle4.x + obstacle4.w)) &&
+                  (ball.dy > 0)
+                  ) {ball.dy = -(ball.dy+2);
+                }
+      
+                // Obstacle 4 Bottom Face
+      
+                else if( ball.y - ball.r < obstacle4.y + obstacle4.h &&
+                  ((ball.x - ball.r > obstacle4.x && ball.x - ball.r < obstacle4.x + obstacle4.w) ||
+                  (ball.x + ball.r < obstacle4.x + obstacle4.w && ball.x + ball.r > obstacle4.x)) &&
+                  ball.y > obstacle4.y + obstacle4.h         
+                  ) {ball.dy = -(ball.dy+0.7);
+                } */
+
+
+            }
+
+        }
+
+        function moveBall() {
+
+            if (level == 1) {
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+            }
+
+            else if (level == 3) {
+                if(ball.dx>0){ //goes right
+                    if(ball.dx<=5){
+                        ball.dx+=0.1;
+                    }
+                    else if(ball.dx>5 && ball.dx<20){
+                        ball.dx+=0.05;
+                    }
+                    else{
+                        ball.dx = Math.random()*5;
+                    }
+                }
+
+                else if(ball.dx<0){ //going left
+                    if (ball.dx >= -5) {
+                        ball.dx += -0.1;
+                    }
+                    else if (ball.dx < -5 && ball.dx > -20) {
+                        ball.dx += -0.05;
+                    }
+                    else {
+                        ball.dx = Math.random() * -5;
+                    }
+                }
+                
+                else{
+                    ball.dx = Math.random()*5;
+                }
+                //y from here
+                /*
+                if (ball.dy > 0) { //goes right
+                    if (ball.dy <= 5) {
+                        ball.dy += Math.random() * 2;
+                    }
+                    else if (ball.dy > 5 && ball.dy < 10) {
+                        ball.dy += Math.random();
+                    }
+                    else {
+                        ball.dy = Math.random() * 5;
+                    }
+                }
+
+                else if (ball.dy < 0) { //going left
+                    if (ball.dy >= -5) {
+                        ball.dy += Math.random() * -2;
+                    }
+                    else if (ball.dy < -5 && ball.dy > -10) {
+                        ball.dy += -1 * Math.random();
+                    }
+                    else {
+                        ball.dy = Math.random() * -5;
+                    }
+                }
+
+                else {
+                    ball.dy = Math.random() * 5;
+                } */
+
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+            }
+
+            else if (level == 2) {
+
+
+                if (ball.dx < 0 && ball.dx > -10) {
+                    ball.dx += Math.random() * -0.05;
+                }
+                if (ball.dx > -15 && ball.dx < -10) {
+                    ball.dx += Math.random() * 0.05;
+                }
+                if (ball.dx < -15) {
+                    ball.dx = Math.random() * -2.5;
+                }
+
+                if (ball.dx < 0 && ball.dx < 10) {
+                    ball.dx += Math.random() * 0.05;
+                }
+                if (ball.dx < 15 && ball.dx > 10) {
+                    ball.dx += Math.random() * -0.05;
+                }
+                if (ball.dx > 15) {
+                    ball.dx = Math.random() * 2.5;
+                }
+
+                if (ball.dy < 0 && ball.dy > -10) {
+                    ball.dy += Math.random() * -0.05;
+                }
+                if (ball.dy > -15 && ball.dy < -10) {
+                    ball.dy += Math.random() * 0.05;
+                }
+                if (ball.dy < -15) {
+                    ball.dy = Math.random() * -2.5;
+                }
+
+                if (ball.dy < 0 && ball.dy < 10) {
+                    ball.dy += Math.random() * 0.05;
+                }
+                if (ball.dy < 15 && ball.dy > 10) {
+                    ball.dy += Math.random() * -0.05;
+                }
+                if (ball.dy > 15) {
+                    ball.dy = Math.random() * 2.5;
+                }
+
+                if (ball.dy < 0.5 && ball.dy > -0.5) ball.dy = 2 * (Math.random() + 0.25);
+
+                if (ball.dx < 0.5 && ball.dx > -0.5) ball.dx = 2 * (Math.random() + 0.25);
+
+
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+
+            }
+
+
+
+            rightPaddle.y = ball.y - paddle.h / 2;
+
+            ctx.clearRect(0, 0, canvasW, canvasH);
+
+            detectCollision();
+
+            drawBall();
+            drawScore();
+            drawCenterLine();
+            drawLeftPaddle();
+            drawRightPaddle();
+            if (level == 2) {
+                drawObstacle1();
+                drawObstacle2();
+            }
+            else if (level == 3) {
+                drawObstacle1();
+                drawObstacle2();
+                drawObstacle3();
+                //drawObstacle4();
+            }
+
+            requestAnimationFrame(moveBall);
+        }
+
+
+        function drawRightPaddle() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(rightPaddle.x, rightPaddle.y, paddle.w, paddle.h);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+        function drawLeftPaddle() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(leftPaddle.x, leftPaddle.y, paddle.w, paddle.h);
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawObstacle1() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(obstacle1.x, obstacle1.y, obstacle1.w, obstacle1.h); // (x,y,width,height)
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawObstacle2() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(obstacle2.x, obstacle2.y, obstacle2.w, obstacle2.h); // (x,y,width,height)
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawObstacle3() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(obstacle3.x, obstacle3.y, obstacle3.w, obstacle3.h); // (x,y,width,height)
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+        function drawObstacle4() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.rect(obstacle4.x, obstacle4.y, obstacle4.w, obstacle4.h); // (x,y,width,height)
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = levelcolor;
+            ctx.fill();
+            ctx.closePath();
+        }
+
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.setLineDash([]);
+            ctx.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI);
+            if (Math.floor(score / 5) % 3 == 0) {
+                levelcolor = 'lightgreen'
+            }
+
+            else if (Math.floor(score / 5) % 3 == 1) {
+                levelcolor = 'red';
+            }
+
+            else if (Math.floor(score / 5) % 3 == 2) {
+                levelcolor = 'blue'
+            }
+
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+            ctx.fillStyle = 'darkblue';
+            ctx.fill();
+
+
+            ctx.closePath();
+        }
+
+        function drawScore() {
+            ctx.beginPath();
+            ctx.fillStyle = "#000";
+            ctx.fill();
+            ctx.font = "20px verdana";
+            ctx.fillText("Score: " + score, 10, 30);
+            ctx.fillText("Level : " + level, 10, 55);
+            ctx.closePath();
+        }
+
+        function drawCenterLine() {
+            ctx.beginPath();
+            ctx.setLineDash([5, 5]);
+            ctx.moveTo(canvasW / 2, 0);
+            ctx.lineTo(canvasW / 2, canvasH);
+            ctx.stroke();
+            ctx.closePath();
+        }
+    </script>
+
+
+    <div>
+        <a href='./v2.3.intro.html'>
+            <input type="submit" value='Back to rules' />
+        </a>
+    </div>
+</body>
+
+</html>
