@@ -296,26 +296,26 @@
             else if (level == 3) {
                 console.log("Initial lvl3 dx = ", ball.dx);
                 if (ball.dx > 0) { //goes right
-                    if (ball.dx <= 5) {
-                        ball.dx += 0.1;
+                    if (ball.dx <= 5*userdx/5) {
+                        ball.dx += 0.1*userdx/5;
                     }
-                    else if (ball.dx > 5 && ball.dx < 20) {
-                        ball.dx += 0.05;
+                    else if (ball.dx > 5*userdx/5 && ball.dx < 20*userdx/5) {
+                        ball.dx += 0.05*userdx/5;
                     }
                     else {
-                        ball.dx = Math.random() * 5;
+                        ball.dx = Math.random() * 5*userdx/5;
                     }
                 }
 
                 else if (ball.dx < 0) { //going left
-                    if (ball.dx >= -5) {
-                        ball.dx += -0.1;
+                    if (ball.dx >= -5*userdx/5) {
+                        ball.dx += -0.1*userdx/5;
                     }
-                    else if (ball.dx < -5 && ball.dx > -20) {
-                        ball.dx += -0.05;
+                    else if (ball.dx < -5*userdx/5 && ball.dx > -20*userdx/5) {
+                        ball.dx += -0.05*userdx/5;
                     }
                     else {
-                        ball.dx = Math.random() * -5;
+                        ball.dx = Math.random() * -5*userdx/5;
                     }
                     console.log("Final lvl3 dx = ", ball.dx);
                 }
