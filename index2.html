@@ -478,8 +478,10 @@
              userdy+=1; 
         }
         function dxDecrement() {
+            if(userdx >1 && userdy>1){
             userdx -=1; 
             userdy -=1;
+            }
         }
     </script>
 
@@ -492,6 +494,8 @@
         <a href='index.html'>
             <input type="submit" value='Back to rules' />
         </a>
+        
+        <p>\n version 2.3</p>
     </div>
 </body>
 
