@@ -125,14 +125,17 @@
             }
             // Detect Top or Bottom Collision
             if (ball.y > canvasH - ball.r || ball.y < 0 + ball.r) {
-                console.log("Initial dy - ", ball.dy);
+               // console.log("Initial dy - ", ball.dy);
 
                 if (ball.dy >= -0.5 && ball.dy <= 0.5) ball.dy *= 4;
                 ball.dy = -ball.dy;
 
-                console.log("Top or bottom collision? bottom, top", ball.y > canvasH - ball.r, ball.y < 0 + ball.r);
+              //  console.log("Top or bottom collision? bottom, top", ball.y > canvasH - ball.r, ball.y < 0 + ball.r);
                 console.log("Final dy - ", ball.dy);
-
+                
+                if(ball.y > canvasH - ball.r) ball.y -= ball.r;
+                if(ball.y < ball.r) ball.y += ball.r;
+                
             }
 
             // Detect Obstacle1&2&3 Collision
@@ -351,6 +354,7 @@
                 drawObstacle2();
             }
             else if (level == 3) {
+                console.log(score);
                 drawObstacle1();
                 drawObstacle2();
                 drawObstacle3();
@@ -504,7 +508,7 @@
             <input type="submit" value='Back to rules' />
         </a>
         
-        <p>\n version 2.6 customer facing</p>
+        <p>\n version 2.7 customer facing</p>
     </div>
 </body>
 
