@@ -64,10 +64,11 @@
             ball = { x: Math.random() * canvasW, y: Math.random() * canvasH, r: 10, dx: 5, dy: 3 };
             leftPaddle = { x: 0, y: 125 };
             rightPaddle = { x: canvasW - 5, y: 125 };
-            obstacle1 = { x: Math.random() * canvasW / 4 + 50, y: Math.random() * canvasH / 2 + 50, w: 150, h: 25 };
-            obstacle2 = { x: Math.random() * canvasW / 4 + canvasW / 4 + 50, y: Math.random() * canvasH / 3 + canvasH / 4, w: 150, h: 25 };
-            obstacle3 = { x: Math.random() * canvasW / 7 + 50, y: Math.random() * canvasH / 4 + 50, w: 100, h: 25 };
-            obstacle4 = { x: Math.random() * canvasW / 6 + canvasW / 3, y: Math.random() * canvasH + canvasH / 7, w: 200, h: 25 };
+            
+            obstacle1 = { x: Math.random() * canvasW / 4 + canvasW/8, y: Math.random() * canvasH / 4 + canvasH/8, w: 150, h: 25 };
+            obstacle2 = { x: Math.random() * canvasW / 4 + 5*canvasW/8, y: Math.random() * canvasH / 4 + 5*canvasH/8, w: 150, h: 25 };
+            obstacle3 = { x: (Math.random() - 1) * canvasW /8 + canvasW/2 , y: (Math.random() - 1) * canvasH /8 + canvasH/2, w: 100, h: 25 };
+            
             level = 1;
             score = 0;
         }
