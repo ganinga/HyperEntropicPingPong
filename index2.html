@@ -121,8 +121,13 @@
             }
             // Detect Top or Bottom Collision
             if (ball.y > canvasH - ball.r || ball.y < 0 + ball.r) {
+                console.log("Initial dy - ", ball.dy);
+                
+                if(ball.dy >=-0.5 && ball.dy <= 0.5) ball.dy *=4;
                 ball.dy = -ball.dy;
+                
                 console.log("Top or bottom collision? bottom, top", ball.y > canvasH - ball.r, ball.y < 0 + ball.r);
+                console.log("Final dy - ", ball.dy);
                 
             }
 
