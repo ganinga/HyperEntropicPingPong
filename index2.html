@@ -289,12 +289,13 @@
 
         function moveBall() {
 
-            if (level == 1) {
+            if (level == 1 || level == 2) {
                 ball.x += ball.dx;
                 ball.y += ball.dy;
             }
 
             else if (level == 3) {
+                console.log("Initial lvl3 dx = ", ball.dx);
                 if(ball.dx>0){ //goes right
                     if(ball.dx<=5){
                         ball.dx+=0.1;
@@ -317,21 +318,21 @@
                     else {
                         ball.dx = Math.random() * -5;
                     }
+                    console.log("Final lvl3 dx = ", ball.dx);
                 }
                 
                 else{
+                    console.log("ball.dx is randomised");
+                    console.log("Initial dx = ", ball.dx);
                     ball.dx = Math.random()*5;
+                    console.log("Post random dx = ", ball.dx);
                 }
 
                 ball.x += ball.dx;
                 ball.y += ball.dy; 
             }
             
-            else if (level == 2) {
-                ball.x += ball.dx;
-                ball.y += ball.dy;
-
-            }
+            
 
 
 
