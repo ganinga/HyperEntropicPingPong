@@ -118,9 +118,8 @@
             }
             else if (ball.x - ball.r < 0) {
                 console.log('Couldnt rebound, Condition: ', ball.x - ball.r);
-                alert("You Lose!");
                 if (highscore < score) highscore = score;
-                alert("Your highscore so far: " + highscore);
+                alert("You Lose!\nYour highscore so far: "+ highscore);
                 score = 0;
                 setInitialVariables();
             }
@@ -136,11 +135,7 @@
 
             }
 
-
-
-
-
-            // Detect Obstacle1&2&3&4 Collision
+            // Detect Obstacle1&2&3 Collision
 
             if (level == 2 || level == 3) {
 
