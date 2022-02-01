@@ -52,6 +52,7 @@
         let highscore = 0;
         let userdx = 6;
         let userdy = 4;
+        let test = 0;
 
         setInitialVariables();
         drawBall();
@@ -358,17 +359,18 @@
                 drawObstacle1();
                 drawObstacle2();
                 drawObstacle3();
-               let test = 0;
+               
                if (score >= 20 && score%10 ==0 && test ==0) {
                     obstacle1 = { x: Math.random() * canvasW / 4 + canvasW / 8, y: Math.random() * canvasH / 4 + canvasH / 8, w: 150, h: 25 };
                     obstacle2 = { x: Math.random() * canvasW / 4 + canvasW / 2, y: Math.random() * canvasH / 4 + 3*canvasH / 5, w: 150, h: 25 };
                     obstacle3 = { x: (Math.random() - 1) * canvasW / 8 + 3 * canvasW / 4, y: (Math.random() - 1) * canvasH / 8 + canvasH / 2, w: 100, h: 25 };
-                    console.log("Have randomised obstacle locations");
+                    
                     drawObstacle1();
                     drawObstacle2();
                     drawObstacle3();
                    
                    test = 1;
+                   console.log("randomised and set test = " + test);
                    
                 } 
                 
@@ -508,7 +510,7 @@
             <input type="submit" value='Back to rules' />
         </a>
         
-        <p>\n version 2.7 customer facing</p>
+        <p>\n version 2.8 flagged ship booolean moment</p>
     </div>
 </body>
 
