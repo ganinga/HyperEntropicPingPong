@@ -322,77 +322,12 @@
                 else{
                     ball.dx = Math.random()*5;
                 }
-                //y from here
-                /*
-                if (ball.dy > 0) { //goes right
-                    if (ball.dy <= 5) {
-                        ball.dy += Math.random() * 2;
-                    }
-                    else if (ball.dy > 5 && ball.dy < 10) {
-                        ball.dy += Math.random();
-                    }
-                    else {
-                        ball.dy = Math.random() * 5;
-                    }
-                }
-
-                else if (ball.dy < 0) { //going left
-                    if (ball.dy >= -5) {
-                        ball.dy += Math.random() * -2;
-                    }
-                    else if (ball.dy < -5 && ball.dy > -10) {
-                        ball.dy += -1 * Math.random();
-                    }
-                    else {
-                        ball.dy = Math.random() * -5;
-                    }
-                }
-
-                else {
-                    ball.dy = Math.random() * 5;
-                } */
-
-                /*
-                if(ball.dy < 0.5 && ball.dy>=0){
-                    ball.dy = 2;
-                }
-                if (ball.dy > -0.5 && ball.dy < 0) {
-                    ball.dy = -2;
-                }*/
 
                 ball.x += ball.dx;
                 ball.y += ball.dy; 
             }
             
-            else if (level == 2) {/*
-                    if (ball.dx > 0) { //goes right
-                    if (ball.dx <= 5) {
-                        ball.dx += 0.05;
-                    }
-                    else if (ball.dx > 5 && ball.dx < 20) {
-                        ball.dx += 0.02;
-                    }
-                    else {
-                        ball.dx = Math.random() * 3;
-                    }
-                }
-
-                else if (ball.dx < 0) { //going left
-                    if (ball.dx >= -5) {
-                        ball.dx += -0.05;
-                    }
-                    else if (ball.dx < -5 && ball.dx > -20) {
-                        ball.dx += -0.02;
-                    }
-                    else {
-                        ball.dx = Math.random() * -3;
-                    }
-                }
-
-                else {
-                    ball.dx = Math.random() * 3;
-                }
-*/
+            else if (level == 2) {
                 ball.x += ball.dx;
                 ball.y += ball.dy;
 
@@ -495,18 +430,26 @@
             ctx.beginPath();
             ctx.setLineDash([]);
             ctx.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI);
-            if (Math.floor(score / 5) % 3 == 0) {
-                levelcolor = 'lightgreen'
+            
+            if(score < 15){
+                if(score<3) levelcolor = 'lightgreen';
+                else if(score>=3 && score <=8) levelcolor = 'red';
+                else levelcolor = 'blue';
             }
+            
+            else{
+                if (Math.floor(score / 5) % 3 == 0) {
+                    levelcolor = 'lightgreen'
+                }
 
-            else if (Math.floor(score / 5) % 3 == 1) {
-                levelcolor = 'red';
+                else if (Math.floor(score / 5) % 3 == 1) {
+                    levelcolor = 'red';
+                }
+
+                else if (Math.floor(score / 5) % 3 == 2) {
+                    levelcolor = 'blue'
+                }
             }
-
-            else if (Math.floor(score / 5) % 3 == 2) {
-                levelcolor = 'blue'
-            }
-
             ctx.strokeStyle = 'black';
             ctx.stroke();
             ctx.fillStyle = 'darkblue';
